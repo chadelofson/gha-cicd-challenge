@@ -1,0 +1,28 @@
+name: Python CICD
+
+on: push
+
+jobs:
+  test_python:
+    name: Checkout Pythong
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Execute Python Script
+        run: python hello.py
+
+  build_python:
+    name: Build Python Script
+    needs: [test_python]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Create Text file
+        run: python hello.py > hello.txt
+      - name: Upload text file
+        uses: actions/upload-artifact@v3
+        with:
+          name: hello-world
+          path: python/hello-world.txt
